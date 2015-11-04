@@ -71,7 +71,14 @@ class Snippet_editor_mcp {
         );
 
         $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
-        $this->EE->cp->set_variable('cp_page_title', lang('settings'));
+       	if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = lang('settings');
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', lang('settings'));
+        }
         
     	return $this->EE->load->view('settings', $vars, TRUE);
         
@@ -110,7 +117,14 @@ class Snippet_editor_mcp {
 		}');
 
 		$this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
-		$this->EE->cp->set_variable('cp_page_title', lang('snippets'));
+		if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = lang('snippets');
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', lang('snippets'));
+        }
 
 		$vars['snippets'] = $this->EE->template_model->get_snippets();
 		$vars['snippets_count'] = $vars['snippets']->num_rows();
@@ -187,7 +201,7 @@ class Snippet_editor_mcp {
                         }
                         else
                         {
-                            $revision_options[$row['tracker_id']] = $this->EE->localize->set_human_time($row['item_date']).' ('.$row['screen_name'].')';
+                            $revision_options[$row['tracker_id']] = $this->EE->localize->human_time($row['item_date']).' ('.$row['screen_name'].')';
                         }
                         $cnt++;
         			}  
@@ -206,7 +220,16 @@ class Snippet_editor_mcp {
 
 		$this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
         $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor'.AMP.'method=snippets', lang('snippets'));
-        $this->EE->cp->set_variable('cp_page_title', ($vars['snippet_name']!='')?str_replace('%s', $vars['snippet_name'], lang('snippet_edit')):lang('snippet_create'));
+        $cp_page_title = ($vars['snippet_name']!='')?str_replace('%s', $vars['snippet_name'], lang('snippet_edit')):lang('snippet_create');
+        if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = $cp_page_title;
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', $cp_page_title);
+        }
+        
 		
         $theme_folder_url = trim($this->EE->config->item('theme_folder_url'), '/').'/third_party/snippet_editor/';
         switch ($this->settings['editor'])
@@ -359,7 +382,14 @@ class Snippet_editor_mcp {
 		{
 			$this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
             $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor'.AMP.'method=snippets', lang('snippets'));
-			$this->EE->cp->set_variable('cp_page_title', lang('delete_snippet'));	
+            if (version_compare(APP_VER, '2.6.0', '>='))
+	        {
+	        	$this->EE->view->cp_page_title = lang('delete_snippet');
+	        }
+	        else
+	        {
+	        	$this->EE->cp->set_variable('cp_page_title', lang('delete_snippet'));
+	        }
             			
 			return $this->EE->load->view('delete_snippet', $snippet, true);
 		}
@@ -399,8 +429,14 @@ class Snippet_editor_mcp {
 
 		$this->EE->javascript->compile();
         
-        $this->EE->cp->set_variable('cp_page_title', lang('revision_history'));	
-
+        if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = lang('revision_history');
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', lang('revision_history'));
+        }
                 
 		$this->EE->db->select('item_id, item_data, item_date')
                     ->from('exp_revision_tracker')
@@ -490,7 +526,14 @@ class Snippet_editor_mcp {
 		}');
 		
         $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
-		$this->EE->cp->set_variable('cp_page_title', lang('global_variables'));
+        if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = lang('global_variables');
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', lang('global_variables'));
+        }
                         
 		$vars['global_variables']		= $this->EE->template_model->get_global_variables();
 		$vars['global_variables_count']	= $vars['global_variables']->num_rows();
@@ -682,7 +725,7 @@ class Snippet_editor_mcp {
                         }
                         else
                         {
-                            $revision_options[$row['tracker_id']] = $this->EE->localize->set_human_time($row['item_date']).' ('.$row['screen_name'].')';
+                            $revision_options[$row['tracker_id']] = $this->EE->localize->human_time($row['item_date']).' ('.$row['screen_name'].')';
                         }
                         $cnt++;
         			}  
@@ -701,8 +744,16 @@ class Snippet_editor_mcp {
 
 		$this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
         $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor'.AMP.'method=global_variables', lang('global_variables'));
-        $this->EE->cp->set_variable('cp_page_title', ($vars['variable_name']!='')?lang('global_var_update'):lang('create_new_global_variable'));
-		
+        $cp_page_title = ($vars['variable_name']!='')?lang('global_var_update'):lang('create_new_global_variable');
+        if (version_compare(APP_VER, '2.6.0', '>='))
+        {
+        	$this->EE->view->cp_page_title = $cp_page_title;
+        }
+        else
+        {
+        	$this->EE->cp->set_variable('cp_page_title', $cp_page_title);
+        }
+        
         $theme_folder_url = trim($this->EE->config->item('theme_folder_url'), '/').'/third_party/snippet_editor/';
         switch ($this->settings['editor'])
         {
@@ -766,7 +817,14 @@ class Snippet_editor_mcp {
 		{
 			$this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor', lang('snippet_editor_module_name'));
             $this->EE->cp->set_breadcrumb(BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=snippet_editor'.AMP.'method=global_variables', lang('global_variables'));
-			$this->EE->cp->set_variable('cp_page_title', lang('delete_global_variable'));	
+            if (version_compare(APP_VER, '2.6.0', '>='))
+	        {
+	        	$this->EE->view->cp_page_title = lang('delete_global_variable');
+	        }
+	        else
+	        {
+	        	$this->EE->cp->set_variable('cp_page_title', lang('delete_global_variable'));
+	        }
 
 			$global_variable_info = $global_variable->row(); 
 			
